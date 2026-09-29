@@ -1,65 +1,56 @@
-### README: Exploring Determinants of H1N1 Vaccine Uptake - A Data-Driven Public Health Approach Using Classification Models
+# H1N1 Vaccine Uptake Classification
 
-#### Overview
+A supervised-learning project that explores the factors associated with H1N1 vaccination and compares classification models for public-health decision support.
 
-1. **Background Information**
+## Decision context
 
-   **1.1 What Happened in 2009 that Shook the World?**
+Public-health teams need to identify groups that may be less likely to receive a vaccine so that outreach can be targeted effectively. The useful model is therefore not simply the one with the highest accuracy: precision, recall, discrimination, calibration and the operational cost of false decisions all matter.
 
-In early 2009, the H1N1 virus, or Swine Flu, was detected in Mexico and spread globally due to international travel, prompting the World Health Organization (WHO) to declare it a pandemic. This strain, a unique mix of human, swine, and avian influenza A viruses, led to an estimated 284,400 deaths worldwide. While children and young adults were most affected, severe complications and fatalities were more common in vulnerable groups such as pregnant women, those with morbid obesity, and individuals with underlying health conditions.
+This framing mirrors actuarial work, where risk classification must combine predictive performance with interpretability, fairness and practical consequences.
 
-   **1.2 What is H1N1 Flu?**
+## Objectives
 
-H1N1, or swine flu, is a strain of influenza A that causes symptoms like fever, muscle aches, cough, sore throat, and fatigue. Most people recover on their own, but complications can be severe and even fatal, particularly for high-risk individuals. Over time, H1N1 became a part of the seasonal flu, and the flu vaccine now protects against it and other flu strains.
+- Explore demographic, behavioural and attitudinal factors related to vaccination.
+- Prepare mixed numerical and categorical survey data for modelling.
+- Compare logistic regression, decision tree and random forest classifiers.
+- Translate model results into practical outreach considerations.
 
-2. **Problem Statement**
+## Data and workflow
 
-Immunization is a key tool in managing the spread of influenza, and as demonstrated during the COVID-19 pandemic, vaccination decisions are shaped by various factors such as personal background, health behaviors, and attitudes toward vaccines. The National 2009 H1N1 Flu Survey provides valuable data for understanding these influences and can guide public health experts in enhancing vaccination outreach and strategies.
+The project uses features and labels from the National 2009 H1N1 Flu Survey. The analysis includes missing-data treatment, exploratory analysis, categorical encoding, class-imbalance handling, model fitting and evaluation with accuracy, precision, recall, F1 and ROC-AUC.
 
-3. ## 3. Objectives 
+## Reported model results
 
-* Build a predictive model to accurately forecast H1N1 vaccination status based on various features like concerns, health behaviors, and demographics.
-* Analyze factors influencing vaccination decisions using visualizations to understand behavior patterns.
-* Evaluate the model and provide actionable insights to improve public health vaccination strategies.
+| Model | Accuracy | F1 | ROC-AUC | Main observation |
+|---|---:|---:|---:|---|
+| Logistic regression | 0.75 | 0.75 | 0.828 | Interpretable baseline with moderate discrimination |
+| Decision tree | 0.83 | 0.83 | 0.896 | Best reported balance across the selected metrics |
+| Random forest | 0.83 | 0.81 | 0.800 | Low recall for the vaccinated class in the reported run |
 
+The notebook selects the decision tree because it reports the strongest overall balance, including class-1 precision of 0.87 and ROC-AUC of 0.896.
 
-### Model Evaluation and Recommendation
+## Practical interpretation
 
-This document summarizes the evaluation of three machine learning models—**Logistic Regression**, **Decision Tree Classifier**, and **Random Forest Classifier**—for predicting vaccination status. The models were assessed using key metrics such as **accuracy**, **precision**, **recall**, **F1 score**, and **AUC-ROC**.
+- Outreach strategy should focus on patterns associated with concern, perceived risk, health behaviour and access.
+- False negatives and false positives should be costed according to the intended intervention.
+- Model scores should support, rather than replace, public-health judgment.
 
-#### Model Performance Summary:
+## Project outputs
 
-- **Logistic Regression:**
-  - **Accuracy**: 0.75 (Within acceptable range but not exceptional)
-  - **Precision**: 0.77 (Below target, indicating some false positives)
-  - **Recall**: 0.73 (Indicating missed vaccinated individuals)
-  - **F1 Score**: 0.75 (Balanced but can be improved)
-  - **AUC-ROC Score**: 0.828 (Close to the benchmark but room for improvement)
-  - **Conclusion**: Performs moderately well but struggles with class imbalance. Not the best option for high precision and recall.
+- [Technical notebook](Phase_3_Project_Jupyter_Notebook%20_H1N1_Seasonal_flu_dataset_Machine_learning.ipynb)
+- [Non-technical report](NON-TECHNICAL%20REPORT%20%20FOR%20H1N1%20PREDICTION%20MODEL%20FINAL2.pdf)
+- `Functions_notebook.ipynb` contains supporting reusable functions.
 
-- **Decision Tree Classifier:**
-  - **Accuracy**: 0.83 (Above benchmark)
-  - **Precision (Class 1)**: 0.87 (Strong precision for vaccinated individuals)
-  - **Recall**: 0.83 (Good balance)
-  - **F1 Score**: 0.83 (Good overall balance)
-  - **AUC-ROC Score**: 0.896 (Exceeds 0.85 benchmark, strong separability between classes)
-  - **Conclusion**: Strong performance with a good balance between precision, recall, and accuracy. The best model overall for identifying vaccinated individuals.
+## Tools
 
-- **Random Forest Classifier:**
-  - **Accuracy**: 0.83 (Solid performance)
-  - **Precision (Class 1)**: 0.69 (Indicating many false positives for the vaccinated class)
-  - **Recall**: 0.38 (Low recall for vaccinated individuals, critical issue)
-  - **F1 Score**: 0.81 (Weighed down by low recall for Class 1)
-  - **AUC-ROC Score**: 0.800 (Below the 0.85 benchmark)
-  - **Conclusion**: While offering good precision for one class, Random Forest struggles with recall for the vaccinated class, leading to a significant number of false negatives.
+Python, pandas, NumPy, scikit-learn, imbalanced-learn, statsmodels, Matplotlib, seaborn and Jupyter.
 
-#### Recommended Model:
+## Reproduce the analysis
 
-- **Decision Tree Classifier** is the best choice. It provides a strong balance across key metrics and performs well in identifying vaccinated individuals while minimizing false positives and negatives. The AUC-ROC score of 0.896 is particularly notable, demonstrating excellent class separation.
+1. Clone the repository.
+2. Create a Python environment with the tools listed above.
+3. Open the technical notebook and run the cells in order.
 
-#### Next Steps:
-- **Hyperparameter tuning**: Further optimize the Decision Tree and Random Forest models for better performance.
-- **Explore Gradient Boosting or XGBoost**: These models could potentially improve performance.
-- **Feature Engineering**: Enhance model performance by creating or modifying features that better capture key relationships.
-- **Model Interpretability**: Use tools like SHAP or LIME to understand feature importance.
-- **Deployment and Monitoring**: Deploy the chosen model and continuously monitor and retrain to ensure its accuracy over time.
+## Limitations and next iteration
+
+The metrics above are those reported in the current notebook and should be treated as development results. A stronger next version should place preprocessing and resampling inside a pipeline, use stratified cross-validation, reserve an untouched test set, tune the decision threshold, report calibration, and examine subgroup performance and fairness. Those checks are required before any real outreach use.
